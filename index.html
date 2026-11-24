@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Franklin Nkweke, senior Node.js and TypeScript engineer. Full-stack projects: ERP, service marketplace, trading journal, AI job applications and more.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2711%27 fill=%27white%27 stroke=%27%23111418%27 stroke-width=%276%27/%3E%3C/svg%3E">
+<title>Franklin Nkweke Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* VOICE: confident, exact, an engineer showing shipped work without hype.
+   IDEA: a metro map. Each project is a station; each skill is a coloured line that runs through the projects that use it.
+   PICTURE: a large route map at the top; the project list below rides one thick vertical line.
+   COLOUR and TYPE: white ground, black ink, line colours red, blue, amber, green; night #0e1116. Figtree 800 + Figtree.
+   LAYOUT: name band, full-width map with line legend (click to filter), project stations, skills grid, contact footer. */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#0e1116);--ink:light-dark(#111418,#eef1f5);--soft:light-dark(#555c66,#a6adb8);
+  --panel:light-dark(#f4f5f7,#171b22);--rule:light-dark(#e3e6ea,#262c36);
+  --red:#e6261f;--blue:#0a5cff;--amber:#ffb400;--green:#00a05a;--stn:light-dark(#ffffff,#0e1116)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:12px max(5vw,16px)}
+nav b{font-weight:800;margin-right:auto;display:flex;align-items:center;gap:10px}
+nav b i{width:14px;height:14px;border-radius:50%;border:4px solid var(--ink);display:inline-block}
+nav a{text-decoration:none;font-weight:600;font-size:15px;color:var(--soft);padding:6px 0}
+nav a:hover,nav a:focus-visible{color:var(--ink)}
+
+h1{font-weight:800;font-size:clamp(34px,4.2vw,50px);line-height:1.05;margin:0 0 14px;text-wrap:balance;letter-spacing:-.02em}
+h2{font-weight:800;font-size:clamp(28px,3.4vw,38px);line-height:1.05;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+h3{font-weight:800;font-size:22px;line-height:1.15;margin:0}
+.lead{font-size:18px;max-width:64ch;color:var(--soft);margin:0}
+.top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px 48px;align-items:center}
+.hero{display:block}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.facts span{background:var(--panel);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;white-space:nowrap}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--ink)}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn:focus-visible,.chip:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+
+.mapbox{background:var(--panel);border-radius:22px;padding:clamp(12px,2vw,24px)}
+.map{width:100%;height:auto;display:block}
+.map .ln{fill:none;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;transition:opacity .25s}
+.map .st circle{fill:var(--stn);stroke:var(--ink);stroke-width:5}
+.map .st text{font:700 17px Figtree,sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:6px;stroke-linejoin:round}
+.map .st text.s{font-weight:500;font-size:13px;fill:var(--soft)}
+.map .st{cursor:pointer;transition:opacity .25s}
+.map .st:hover circle{stroke-width:7}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.legend p{margin:0 6px 0 0;font-size:14px;color:var(--soft)}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--rule);background:var(--bg);color:var(--ink);font:600 15px Figtree,sans-serif;cursor:pointer}
+.chip i{width:22px;height:8px;border-radius:4px;background:var(--c)}
+.chip[aria-pressed=true]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c)}
+.dim{opacity:.14}
+
+.route{position:relative;padding-left:56px;margin-top:28px}
+.route::before{content:"";position:absolute;left:17px;top:10px;bottom:10px;width:12px;border-radius:6px;background:var(--ink)}
+.proj{position:relative;padding:24px 0 30px;border-bottom:1px solid var(--rule);transition:opacity .25s}
+.proj:last-child{border-bottom:0}
+.proj::before{content:"";position:absolute;left:-49px;top:26px;width:22px;height:22px;border-radius:50%;background:var(--stn);border:5px solid var(--ink)}
+.ph{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.lines{display:flex;gap:4px}.lines i{width:20px;height:8px;border-radius:4px}
+.status{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--panel);white-space:nowrap}
+.status.live{background:color-mix(in srgb,var(--green) 16%,transparent);color:light-dark(#00703f,#4fd39a)}
+.what{font-size:17px;margin:8px 0 14px;max-width:70ch}
+.cols{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px 36px}
+.cols ul{margin:0;padding-left:20px}.cols li{margin:4px 0}
+.cols h4{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--soft)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:14px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--panel);white-space:nowrap}
+.links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px}
+.links a{font-weight:700;text-underline-offset:4px}
+
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:14px;margin-top:24px}
+.sk{background:var(--panel);border-radius:16px;padding:18px 20px;border-left:12px solid var(--c)}
+.sk h3{font-size:18px;margin-bottom:6px}
+.sk p{margin:0;color:var(--soft);font-size:15px}
+.sk small{display:block;margin-top:10px;font-size:13px;font-weight:600;color:var(--ink)}
+
+footer{background:var(--ink);color:var(--bg)}
+footer .lead{color:color-mix(in srgb,var(--bg) 75%,var(--ink))}
+footer .btn{border-color:var(--bg)}
+footer .btn.dark{background:var(--bg);color:var(--ink)}
+.note{font-size:13px;opacity:.7;margin-top:22px}
+
+@media(max-width:1000px){.top{grid-template-columns:minmax(0,1fr)}.mapbox{max-width:760px}}
+@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.map .st text.s{display:none}.map .st text{font-size:22px}.route{padding-left:42px}.route::before{left:10px;width:10px}.proj::before{left:-40px;width:20px;height:20px}nav a{font-size:14px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b><i></i>Franklin Nkweke</b><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div></nav>
+
+<header class="band"><div class="wrap top">
+  <div class="hero">
+    <div>
+      <h1>Senior Node.js &amp; TypeScript engineer building full-stack products end to end</h1>
+      <p class="lead">I design the architecture, build the APIs and databases, connect the third-party services and ship it to the cloud. Seven recent projects are on this map. Each coloured line is a skill, and it stops at every project that uses it.</p>
+      <div class="facts"><span>Node.js</span><span>TypeScript</span><span>Express</span><span>REST APIs</span><span>Microservices</span><span>Lagos, Nigeria · open to remote</span></div>
+    <div class="cta"><a class="btn dark" href="#projects">See the projects</a><a class="btn" href="https://github.com/franklinnkweke">GitHub</a><a class="btn" href="https://www.linkedin.com/in/franklin-nkweke">LinkedIn</a></div>
+  </div>
+  </div>
+
+  <div class="mapbox">
+    <svg class="map" id="map" viewBox="0 0 660 400" role="img" aria-label="Route map: seven projects joined by four skill lines"></svg>
+    <div class="legend" id="legend"><p>Show one line:</p></div>
+  </div>
+</div></header>
+
+<section class="band" id="projects" style="padding-top:8px"><div class="wrap">
+  <h2>Projects</h2>
+  <p class="lead">What each one does, what I built, and the stack behind it.</p>
+  <div class="route" id="route"></div>
+</div></section>
+
+<section class="band" id="skills" style="background:var(--panel)"><div class="wrap">
+  <h2>Skills</h2>
+  <p class="lead">The core of my work is Node.js, TypeScript and Express on the backend, with the rest of the stack built around them.</p>
+  <div class="skills" id="skillgrid"></div>
+</div></section>
+
+<footer class="band" id="contact"><div class="wrap">
+  <h2>Let's work together</h2>
+  <p class="lead">I'm looking for a senior Node.js or full-stack role, remote or hybrid. I'm happy to walk you through any of these projects and the code behind them.</p>
+  <div class="cta" style="justify-content:flex-start;margin-top:20px">
+    <a class="btn dark" href="https://github.com/franklinnkweke">github.com/franklinnkweke</a>
+    <a class="btn" href="https://www.linkedin.com/in/franklin-nkweke">LinkedIn</a>
+    <a class="btn" href="mailto:franklinnkweke@gmail.com">franklinnkweke@gmail.com</a>
+    <a class="btn" href="https://dayvantage.club">Try Dayvantage live</a>
+  </div>
+  <p class="note">© 2026 Franklin Nkweke</p>
+</div></footer>
+
+<script>
+{
+const L={
+  full:{n:'Full-stack development',c:'var(--blue)'},
+  api:{n:'API integration & REST',c:'var(--red)'},
+  db:{n:'Databases',c:'var(--amber)'},
+  cloud:{n:'Cloud & CI/CD',c:'var(--green)'}
+};
+const P=[
+ {id:'kora',name:'Kora ERP',sub:'ERP system',x:80,y:200,lx:14,ly:-28,lines:['full','api','db','cloud'],status:'Built & tested',
+  what:'An ERP for a trading business that runs stock, sales, purchasing, invoicing and payments in one place. Each team (sales, warehouse, accounts) handles its own steps, and every change is recorded in an activity log.',
+  built:['Designed a REST API in Express and TypeScript with 31 endpoints, input validation and role-based access for four teams','Order life cycles: sales go draft, confirmed, delivered, invoiced; purchases go draft, placed, received','Business rules: stock checks and reservations, customer credit limits, 7.5% VAT, part payments, no overpayment','Stock kept as a ledger of movements, money stored in kobo, every multi-step change in a database transaction','Reports: dashboard, stock valuation and receivables aging; OpenAPI docs','API and browser tests, Docker image and a GitHub Actions pipeline that tests, builds and publishes on every push'],
+  stack:['Node.js','TypeScript','Express','REST API','SQLite','JWT','Zod','Docker','GitHub Actions','OpenAPI'],links:[['View the code on GitHub','https://github.com/franklinnkweke/kora-erp']]},
+ {id:'devapply',name:'DevApply',sub:'AI job applications',x:80,y:90,lx:-50,ly:-38,lines:['full','api','db','cloud'],status:'Architecture & specs',
+  what:'An AI-assisted job application platform. It matches a candidate\'s CV against a job description, shows the strong matches and the gaps, and produces a tailored CV for each role. The first target is NHS job portals (Jobtrain and Trac).',
+  built:['Designed the platform architecture and wrote two full product requirement documents (PRDs)','Planned the compliance and data-protection approach, with UK/EU data residency','Built the CV-to-job matching and tailored PDF generation workflow','Added salary research for each role to guide the expected-pay answer'],
+  stack:['Node.js','TypeScript','Supabase','PostgreSQL','REST APIs','AI integration','PDF generation'],links:[]},
+ {id:'dayvantage',name:'Dayvantage',sub:'Trading & life journal',x:260,y:90,lx:-46,ly:-38,lines:['full','api','db','cloud'],status:'Live',live:true,
+  what:'A trading journal and personal journal in one web app. Traders log trades with chart screenshots, see performance, psychology and calendar views, and get feedback from an AI coach. The personal side covers daily journaling, habits, books and goals.',
+  built:['Built the full app: dashboards, trade explorer, performance and psychology pages, calendar heat-map, reviews','Designed a Postgres database kept in its own folder so it can be hosted apart from the app, with image storage links','Set up email and Google sign-in, row-level security, and CSV and JSON export and backup','Imported real trading data from Notion and added AI chart reading and an AI coach','Deployed from GitHub to Netlify with a custom domain'],
+  stack:['JavaScript','Supabase','PostgreSQL','Google OAuth','Netlify','GitHub','AI integration','Notion API'],
+  links:[['Open the live app','https://dayvantage.club']]},
+ {id:'dailybread',name:'Daily Bread',sub:'Service marketplace',x:420,y:200,lx:16,ly:30,lines:['full','api','db','cloud'],status:'Built & tested',
+  what:'A marketplace where customers find and book local services such as TV repair, hair styling, barbering and home cooks. Providers show videos of past work and build trust through ratings. For safety, a provider can stream live video during a job, and anyone can raise an SOS.',
+  built:['Split the system into 7 microservices, each with its own database: gateway, auth, catalog, providers, bookings, reviews and live video','Built an admin portal to add, edit and hide services without code changes, verify providers and watch SOS alerts','Built in-browser live video with WebRTC and WebSockets, plus time-limited guest safety links','Wrote 39 backend tests and 35 browser tests; packaged every service in Docker with Docker Compose'],
+  stack:['Node.js','Express','JWT','bcrypt','SQLite','WebSocket','WebRTC','Docker','Playwright'],links:[]},
+ {id:'tts',name:'Text to Voice',sub:'Reader app',x:580,y:90,lx:-50,ly:-38,lines:['full'],status:'Live',live:true,
+  what:'Paste any text and a natural voice reads it aloud, highlighting each sentence as it goes. You can tap a sentence to jump to it, change the speed, resume where you stopped and save the reading as an audio file.',
+  built:['Ran an open-source neural voice model (Kokoro-82M) in the browser, so no text leaves the device','Built follow-along highlighting, tap-to-jump, speed control and resume-from-last-sentence','Added audio file export (MP4 or WebM) and a phone layout with a pinned player'],
+  stack:['JavaScript','ONNX Runtime Web','Web Audio','Responsive UI'],links:[]},
+ {id:'flodesk',name:'FloDesk',sub:'Trading workflow app',x:260,y:310,lx:-48,ly:42,lines:['full','api','db'],status:'In progress',
+  what:'A trading workflow app with user accounts: journal and dashboard, a risk calculator with daily loss guardrails, a trade plan checklist and an AI coach. Trades sync from a MetaTrader 5 broker account.',
+  built:['Wrote the full product spec: eight pages and a 15-table data model','Built the database schema, authentication, file storage and the trading maths library','Designed live MT5 sync through the MetaApi service, with the API token kept server-side'],
+  stack:['React','TypeScript','Tailwind','Supabase','PostgreSQL','Edge functions','MetaApi'],links:[]},
+ {id:'fxbot',name:'FX Strategy Engine',sub:'Automated trading',x:560,y:310,lx:-80,ly:42,lines:['api'],status:'Version 8, testing',
+  what:'An automated version of my own forex trading strategy. It reads market structure across timeframes, finds three kinds of entry and places trades with fixed risk rules, first in TradingView backtests and later on MT5.',
+  built:['Wrote a 1,900-line strategy as a state machine with three entry models that can each be switched on or off','Multi-timeframe logic (4H to 15m, 1H to 5m, 15m to 1m) with no repainting','Guardrails: trading sessions, weekdays only, max 3 trades a day, stop after 2 losses in a row','Python simulations to test the trend-line rules before each release'],
+  stack:['Pine Script v6','TradingView','Python','MT5 / MQL5 (planned)'],links:[]}
+];
+const S=Object.fromEntries(P.map(p=>[p.id,p]));
+const routes={
+  full:'M30 90 H260 L370 200 H420 L530 90 H630 M80 200 H30',
+  api:'M80 40 V200 L190 310 H600',
+  db:'M260 40 V310 H310 L420 200 H480 M80 200 H170 L260 110',
+  cloud:'M420 380 V210 L320 110 H250 L230 90 H80 M80 200 L40 240 V380'
+};
+const map=document.getElementById('map');
+map.innerHTML=Object.entries(routes).map(([k,d])=>`<path class="ln" data-l="${k}" d="${d}" stroke="${L[k].c}"/>`).join('')+
+ P.map(p=>`<g class="st" data-p="${p.id}" tabindex="0" role="link" aria-label="${p.name}"><circle cx="${p.x}" cy="${p.y}" r="12"/><text x="${p.x+p.lx}" y="${p.y+p.ly}">${p.name}</text><text class="s" x="${p.x+p.lx}" y="${p.y+p.ly+17}">${p.sub}</text></g>`).join('');
+
+const leg=document.getElementById('legend');
+leg.insertAdjacentHTML('beforeend',Object.entries(L).map(([k,v])=>`<button class="chip" style="--c:${v.c}" data-f="${k}" aria-pressed="false"><i></i>${v.n}</button>`).join(''));
+
+document.getElementById('route').innerHTML=P.map(p=>`
+ <article class="proj" id="${p.id}" data-lines="${p.lines.join(' ')}">
+  <div class="ph"><h3>${p.name}</h3><span class="lines">${p.lines.map(l=>`<i style="background:${L[l].c}" title="${L[l].n}"></i>`).join('')}</span><span class="status${p.live?' live':''}">${p.status}</span></div>
+  <p class="what">${p.what}</p>
+  <div class="cols">
+   <div><h4>What I built</h4><ul>${p.built.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+   <div><h4>Stack</h4><div class="tags">${p.stack.map(s=>`<span>${s}</span>`).join('')}</div>
+   ${p.links.length?`<div class="links">${p.links.map(([t,u])=>`<a href="${u}">${t} →</a>`).join('')}</div>`:''}</div>
+  </div>
+ </article>`).join('');
+
+const SK=[
+ ['Full-stack development','blue','React and single-page front ends on top of Node.js backends, from first screen to production.','full'],
+ ['Software architecture','ink','Microservices, event-driven design with Kafka and RabbitMQ, clear service boundaries and written specs before code.',null,'Kora ERP, Daily Bread, DevApply, FloDesk'],
+ ['API integration','red','Connecting third-party services: sign-in providers, broker data (MetaApi), Notion, AI models and file storage.','api'],
+ ['REST APIs','red','REST APIs in Express with validation, JWT auth and Swagger/OpenAPI docs, tested with Jest and Postman.',null,'Kora ERP, Daily Bread, Dayvantage'],
+ ['Databases','amber','PostgreSQL, MySQL, MongoDB and SQLite; schema design, row-level security, migrations and backups.','db'],
+ ['ERP systems','ink','Business process data across modules such as inventory, orders, customers and finance, joined through shared APIs.',null,'Kora ERP'],
+ ['Cloud infrastructure','green','AWS, Supabase, Netlify and Docker; separate hosting for app and database, secrets kept server-side.','cloud'],
+ ['CI/CD','green','GitHub Actions pipelines that test, build and publish Docker images; deploy-on-push from GitHub; containerised builds with Docker Compose.','cloud'],
+ ['Node.js · TypeScript · Express','blue','My main stack: typed, modular Node.js services with Express, tested and documented.',null,'Every project']
+];
+document.getElementById('skillgrid').innerHTML=SK.map(([n,c,t,l,used])=>{
+  const where=used||P.filter(p=>p.lines.includes(l)).map(p=>p.name).join(', ');
+  return `<div class="sk" style="--c:${c==='ink'?'var(--ink)':'var(--'+c+')'}"><h3>${n}</h3><p>${t}</p>${where?`<small>Used in: ${where}</small>`:''}</div>`}).join('');
+
+let on=null;
+function apply(){
+  leg.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===on));
+  map.querySelectorAll('.ln').forEach(e=>e.classList.toggle('dim',!!on&&e.dataset.l!==on));
+  map.querySelectorAll('.st').forEach(e=>e.classList.toggle('dim',!!on&&!S[e.dataset.p].lines.includes(on)));
+  document.querySelectorAll('.proj').forEach(e=>e.classList.toggle('dim',!!on&&!e.dataset.lines.split(' ').includes(on)));
+}
+leg.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;on=on===b.dataset.f?null:b.dataset.f;apply()});
+const go=id=>document.getElementById(id).scrollIntoView();
+map.addEventListener('click',e=>{const g=e.target.closest('.st');if(g)go(g.dataset.p)});
+map.addEventListener('keydown',e=>{const g=e.target.closest('.st');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();go(g.dataset.p)}});
+}
+</script>
+</body>
+</html>
