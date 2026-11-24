@@ -6,6 +6,7 @@
 <meta name="description" content="Franklin Nkweke, senior Node.js and TypeScript engineer. Full-stack projects: ERP, service marketplace, trading journal, AI job applications and more.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2711%27 fill=%27white%27 stroke=%27%23111418%27 stroke-width=%276%27/%3E%3C/svg%3E">
 <title>Franklin Nkweke Portfolio</title>
+<script>try{const t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -34,6 +35,12 @@ nav b{font-weight:800;margin-right:auto;display:flex;align-items:center;gap:10px
 nav b i{width:14px;height:14px;border-radius:50%;border:4px solid var(--ink);display:inline-block}
 nav a{text-decoration:none;font-weight:600;font-size:15px;color:var(--soft);padding:6px 0}
 nav a:hover,nav a:focus-visible{color:var(--ink)}
+.theme{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer;padding:0}
+.theme:hover{border-color:var(--ink)}.theme:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.theme svg{width:20px;height:20px}.theme .sun{display:none}
+:root[data-theme=dark] .theme .sun{display:block}:root[data-theme=dark] .theme .moon{display:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .theme .sun{display:block}:root:not([data-theme=light]) .theme .moon{display:none}}
+body,nav,.mapbox,.sk,.chip,.tags span,.facts span{transition:background-color .2s,color .2s}
 
 h1{font-weight:800;font-size:clamp(34px,4.2vw,50px);line-height:1.05;margin:0 0 14px;text-wrap:balance;letter-spacing:-.02em}
 h2{font-weight:800;font-size:clamp(28px,3.4vw,38px);line-height:1.05;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
@@ -95,11 +102,11 @@ footer .btn.dark{background:var(--bg);color:var(--ink)}
 
 @media(max-width:1000px){.top{grid-template-columns:minmax(0,1fr)}.mapbox{max-width:760px}}
 @media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:600px){.map .st text.s{display:none}.map .st text{font-size:22px}.route{padding-left:42px}.route::before{left:10px;width:10px}.proj::before{left:-40px;width:20px;height:20px}nav a{font-size:14px}}
+@media(max-width:600px){nav b{order:-1}.theme{order:0}nav .wrap::before{content:'';order:1;flex-basis:100%;height:0}nav a{order:2}nav .wrap{row-gap:0}.map .st text.s{display:none}.map .st text{font-size:22px}.route{padding-left:42px}.route::before{left:10px;width:10px}.proj::before{left:-40px;width:20px;height:20px}nav a{font-size:14px}}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><b><i></i>Franklin Nkweke</b><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div></nav>
+<nav><div class="wrap"><b><i></i>Franklin Nkweke</b><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a><button class="theme" id="theme" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button></div></nav>
 
 <header class="band"><div class="wrap top">
   <div class="hero">
@@ -229,6 +236,12 @@ function apply(){
 }
 leg.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;on=on===b.dataset.f?null:b.dataset.f;apply()});
 const go=id=>document.getElementById(id).scrollIntoView();
+const tb=document.getElementById('theme');
+const isDark=()=>document.documentElement.dataset.theme?document.documentElement.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+const label=()=>tb.setAttribute('aria-label',isDark()?'Switch to light mode':'Switch to dark mode');
+label();
+tb.addEventListener('click',()=>{const t=isDark()?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}label()});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',label);
 map.addEventListener('click',e=>{const g=e.target.closest('.st');if(g)go(g.dataset.p)});
 map.addEventListener('keydown',e=>{const g=e.target.closest('.st');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();go(g.dataset.p)}});
 }
